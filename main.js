@@ -88,59 +88,64 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const form = document.getElementById("contact-form");
-  const formStatus = document.getElementById("form-status");
+  const contactForm = document.querySelector("#contact-form");
+const formStatus = document.querySelector("#form-status");
+const submitButton = contactForm?.querySelector(".submit-button");
 
-  if (form && formStatus) {
-    const validationMessages = {
-      name: "請輸入至少 2 個字的姓名。",
-      email: "請輸入有效的 Email 格式。",
-      subject: "請輸入至少 3 個字的聯絡主旨。",
-      message: "請輸入至少 10 個字的留言內容。"
-    };
+/*
+ * 將下方網址改成 Apps Script 部署後的 /exec 網址。
+ */
+const CONTACT_API_URL =
+  https://script.google.com/macros/s/AKfycbzOVB2aeG3mhlvq_Qnwx-U-3CJL1PwR_YBou_G5HzpZih3NUIMZSYl-OwZzL0WWYSAY/exec;
 
-    function validateField(field) {
-      const wrapper = field.closest(".field");
-      const error = wrapper?.querySelector(".error");
-      const value = field.value.trim();
-      let valid = field.checkValidity();
+if (contactForm && formStatus && submitButton) {
+  contactForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-      if (field.type === "email" && value) {
-        valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      }
+    formStatus.textContent = "";
 
-      if (wrapper) wrapper.classList.toggle("invalid", !valid);
-      field.setAttribute("aria-invalid", String(!valid));
-      if (error) error.textContent = valid ? "" : validationMessages[field.name] ?? "請檢查此欄位。";
-
-      return valid;
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return;
     }
 
-    const fields = [...form.querySelectorAll("input, textarea")];
+    const originalButtonContent = submitButton.innerHTML;
 
-    fields.forEach((field) => {
-      field.addEventListener("blur", () => validateField(field));
-      field.addEventListener("input", () => {
-        if (field.closest(".field")?.classList.contains("invalid")) validateField(field);
-        formStatus.textContent = "";
+    submitButton.disabled = true;
+    submitButton.innerHTML =
+      '傳送中 <span aria-hidden="true">…</span>';
+
+    formStatus.textContent = "正在傳送訊息，請稍候。";
+
+    try {
+      const formData = new FormData(contactForm);
+      const requestBody = new URLSearchParams(formData);
+
+      /*
+       * Apps Script 與網站屬於不同網域，
+       * 使用 no-cors 避免瀏覽器阻擋跨網域請求。
+       */
+      await fetch(CONTACT_API_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: requestBody
       });
-    });
 
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+      contactForm.reset();
 
-      const results = fields.map(validateField);
-      if (results.includes(false)) {
-        formStatus.textContent = "請先完成標示的必填欄位。";
-        form.querySelector('[aria-invalid="true"]')?.focus();
-        return;
-      }
+      formStatus.textContent =
+        "訊息已成功送出，我會盡快與你聯絡。";
+    } catch (error) {
+      console.error("聯絡表單傳送失敗：", error);
 
-      formStatus.textContent = "表單驗證完成！目前為示範模式，訊息尚未實際送出。";
-      form.reset();
-      fields.forEach((field) => field.setAttribute("aria-invalid", "false"));
-    });
-  }
+      formStatus.textContent =
+        "訊息傳送失敗，請稍後再試。";
+    } finally {
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonContent;
+    }
+  });
+}
 
   const year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
