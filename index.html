@@ -233,16 +233,93 @@
           <a class="phone-link" href="tel:0800080012"><span>電話</span>08-00080012</a>
         </div>
         <form class="contact-form" id="contact-form" novalidate>
-          <div class="form-row">
-            <div class="field"><label for="name">姓名 <span aria-hidden="true">*</span></label><input id="name" name="name" type="text" autocomplete="name" required minlength="2"><small class="error" aria-live="polite"></small></div>
-            <div class="field"><label for="email">Email <span aria-hidden="true">*</span></label><input id="email" name="email" type="email" autocomplete="email" required><small class="error" aria-live="polite"></small></div>
-          </div>
-          <div class="field"><label for="subject">聯絡主旨 <span aria-hidden="true">*</span></label><input id="subject" name="subject" type="text" required minlength="3"><small class="error" aria-live="polite"></small></div>
-          <div class="field"><label for="message">留言內容 <span aria-hidden="true">*</span></label><textarea id="message" name="message" rows="5" required minlength="10" placeholder="請簡單描述你的需求或想討論的主題"></textarea><small class="error" aria-live="polite"></small></div>
-          <button class="button button-primary submit-button" type="submit">送出訊息 <span aria-hidden="true">→</span></button>
-          <p class="form-note">此為前端示範表單，目前不會傳送或儲存資料。</p>
-          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        </form>
+  <div class="form-row">
+    <div class="field">
+      <label for="name">姓名 <span aria-hidden="true">*</span></label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        minlength="2"
+      >
+      <small class="error" aria-live="polite"></small>
+    </div>
+
+    <div class="field">
+      <label for="email">Email <span aria-hidden="true">*</span></label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+      >
+      <small class="error" aria-live="polite"></small>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="subject">
+      聯絡主旨 <span aria-hidden="true">*</span>
+    </label>
+    <input
+      id="subject"
+      name="subject"
+      type="text"
+      required
+      minlength="3"
+    >
+    <small class="error" aria-live="polite"></small>
+  </div>
+
+  <div class="field">
+    <label for="message">
+      留言內容 <span aria-hidden="true">*</span>
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      rows="5"
+      required
+      minlength="10"
+      placeholder="請簡單描述你的需求或想討論的主題"
+    ></textarea>
+    <small class="error" aria-live="polite"></small>
+  </div>
+
+  <!-- 防止機器人垃圾訊息 -->
+  <div class="honeypot-field" aria-hidden="true">
+    <label for="website">網站</label>
+    <input
+      id="website"
+      name="website"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+    >
+  </div>
+
+  <button
+    class="button button-primary submit-button"
+    type="submit"
+  >
+    送出訊息
+    <span aria-hidden="true">→</span>
+  </button>
+
+  <p class="form-note">
+    送出後，聯絡內容將寄送至管理信箱。
+  </p>
+
+  <p
+    class="form-status"
+    id="form-status"
+    role="status"
+    aria-live="polite"
+  ></p>
+</form>
       </div>
     </section>
   </main>
