@@ -96,7 +96,7 @@ const submitButton = contactForm?.querySelector(".submit-button");
  * 將下方網址改成 Apps Script 部署後的 /exec 網址。
  */
 const CONTACT_API_URL =
-  https://script.google.com/macros/s/AKfycbzOVB2aeG3mhlvq_Qnwx-U-3CJL1PwR_YBou_G5HzpZih3NUIMZSYl-OwZzL0WWYSAY/exec;
+  "https://script.google.com/macros/s/AKfycbzOVB2aeG3mhlvq_Qnwx-U-3CJL1PwR_YBou_G5HzpZih3NUIMZSYl-OwZzL0WWYSAY/exec";
 
 if (contactForm && formStatus && submitButton) {
   contactForm.addEventListener("submit", async (event) => {
