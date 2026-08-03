@@ -264,21 +264,6 @@ h1 span { color: var(--gold); }
   height: auto;
   border-radius: 20px;
 }
-.phone-link {
-  display: inline-flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-top: 24px;
-  font-family: Georgia, serif;
-  font-size: 28px;
-  font-weight: 700;
-}
-.phone-link strong {
-  font: inherit;
-  letter-spacing: 0.03em;
-  font-variant-numeric: tabular-nums;
-}
-.phone-link span { color: var(--gold); font-family: inherit; font-size: 11px; letter-spacing: .16em; }
 .contact-form { padding: 38px; background: var(--cream); border-radius: var(--radius); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .field { margin-bottom: 20px; }
