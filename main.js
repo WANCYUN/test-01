@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const navToggle = document.querySelector(".nav-toggle");
   const navMenu = document.querySelector(".nav-menu");
   const navLinks = [...document.querySelectorAll('.nav-menu a[href^="#"]')];
+  const sideSectionLinks = [...document.querySelectorAll('.side-quick-link[data-section]')];
 
   // 行動版導覽：同步更新視覺狀態與輔助科技可讀狀態。
   function setMenu(open) {
@@ -55,6 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
           navLinks.forEach((link) => {
             const active = link.getAttribute("href") === `#${entry.target.id}`;
+            link.classList.toggle("active", active);
+
+            if (active) link.setAttribute("aria-current", "location");
+            else link.removeAttribute("aria-current");
+          });
+
+          sideSectionLinks.forEach((link) => {
+            const active = link.dataset.section === entry.target.id;
             link.classList.toggle("active", active);
 
             if (active) link.setAttribute("aria-current", "location");
@@ -146,6 +155,21 @@ if (contactForm && formStatus && submitButton) {
     }
   });
 }
+
+  const backToTop = document.getElementById("back-to-top");
+
+  function updateBackToTop() {
+    if (!backToTop) return;
+    backToTop.classList.toggle("show", window.scrollY > 480);
+  }
+
+  if (backToTop) {
+    updateBackToTop();
+    window.addEventListener("scroll", updateBackToTop, { passive: true });
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 
   const year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
